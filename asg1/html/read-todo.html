@@ -1,0 +1,26 @@
+<div id="data">
+
+</div>
+<script type="text/javascript">
+            let myRequest = 'http://localhost:3000/todo';
+            html = "";
+            let div = document.getElementById('data');
+            fetch(myRequest)
+            .then(function(response) {              
+                  return response.json()               
+            })
+            .then(function(json) { 
+                console.log(json)
+                html += "<table class='table table-inverse'>";
+                html += "<tr><th>User ID</th><th>ID</th><th>Title</th><th>Completed</th></tr>";
+                for(i = 0;i < json.length; i++){
+                    html += "<tr><td>"+ json[i].userId +"</td><td>"+ json[i].id +"</td><td>"+ json[i].title +"</td><td>"+ json[i].completed +"</td></td>";
+                    console.log(json[i]);
+                }
+                html += "</table>";
+                console.log(html);
+                div.innerHTML += html;
+            })
+            console.log(html);
+            
+</script>
