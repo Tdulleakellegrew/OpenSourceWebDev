@@ -14,4 +14,8 @@ router.get('/form', function(req, res, next){
   res.render('form', {title: 'Form'});
 });
 
+router.post('/submit', function(req, res, next){
+  res.render('submit', {title: 'Submit', name: req.body.name, email: req.body.email, comments: req.body.comments});
+});
+
 module.exports = router;

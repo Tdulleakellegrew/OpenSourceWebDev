@@ -3,13 +3,13 @@ extends layout
 block content
   h1= title
   form(action="/submit", method="post")
-    div.form-group
+    div.form-group.col-md-6
         label(for="name") Name:
         input#name.form-control(type='text' placeholder='Name' name='name')
         label(for="email") Email:
         input#email.form-control(type='email' placeholder='email@email.com' name='email')
         label(for="comments") Comments:
         textarea#comment.form-control(name='comments', cols="30", rows="10")
-    div.form-group
+    div.form-group.col-md-6
         input#submit.btn.btn-dark(type='submit' value='Submit' name='submit')
         
