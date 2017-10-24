@@ -1,0 +1,14 @@
+mixin colorTable(input)
+    -var i = 0;
+    
+    table
+        while i < input
+            -var j = 0;
+            tr
+                while j < input
+                    -var color = ((1<<24)*Math.random()|0).toString(16);
+                        td(style={background : "#" + color})= color
+                            br 
+                            span(style={color: 'white'})= color
+                    -j++; 
+            -i++;

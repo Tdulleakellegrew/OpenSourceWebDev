@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  -var x = 0;
+  form(action="/", method="post")
+    select(id="input" name="input")
+      each val in [3,4,10,20]
+        option= val
+    input(type='submit')
+  
+  +colorTable(inp)
