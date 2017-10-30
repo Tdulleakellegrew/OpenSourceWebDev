@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    h1=title
+    p
+        a(href="../") Home
+    p=removed
+    if results.length
+        table(border="1")
+            thead   
+                tr
+                    th First Name
+                    th Last Name
+                    th Department
+                    th Job Title
+                    th Start Date
+            tbody
+              each stuff in results
+                tr
+                    td 
+                        =stuff.firstName
+                    td 
+                        =stuff.lastName
+                    td 
+                        =stuff.department
+                    td 
+                        =stuff.jobTitle
+                    td 
+                        =stuff.startDate.toDateString()
+                    td
+                        a(href="../update/"+stuff._id) Update
+                    td
+                        a(href="../delete/"+stuff._id) Delete
+    else
+        p No results found

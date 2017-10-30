@@ -1,0 +1,19 @@
+extends layout
+
+block content
+ h1=title
+ p
+    a(href="../view") View
+ h2=message
+ form(action="/update", method="post", role="form")
+        input(type='text' name='fName' value=results.firstName)
+        input(type='text' name='lName' value=results.lastName)
+        select(name='dep')
+          option Accountant
+          option Software Engineer
+          option Officer
+        input(type='date' name='date' value=results.startDate)
+        input(type='text' name='jTitle' value=results.jobTitle)
+        input(type='number' name='salary' value=results.salary)
+        input(type="hidden" name="_id" value=results._id)
+        input(type="submit" value="Submit") 
