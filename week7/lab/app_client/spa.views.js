@@ -3,7 +3,7 @@ class View {
     get home() {
         return Promise.resolve(`<section class="hero is-info is-small spacer">
                     <div class="hero-body">
-                        <h1 class="title">Todo Crud Sample</h1>
+                        <h1 class="title">Employees Crud</h1>
                     </div>
                 </section>
                 <p data-bind-model="deleteResultMsg" data-bind-safe data-bind-class="{'is-success': 'isDeleted', 'is-danger': '!isDeleted' }" class="notification is-spaced"></p>              

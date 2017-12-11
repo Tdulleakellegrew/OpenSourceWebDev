@@ -22,7 +22,7 @@ module.exports.post = function (req, res) {
                 return;
             }).then(function (err) {
                 console.log(msg);
-                res.send(msg);
+                res.json(msg);
             });
 
     } else {
@@ -42,7 +42,7 @@ module.exports.getAll = function (req, res) {
             res.header("Content-Type",'application/json');
             console.log(res.header()._headers);
             //console.log(res.contentType());
-            res.send(results);
+            res.json(results);
         });
 }
 
@@ -54,7 +54,7 @@ module.exports.getOne = function (req, res) {
         .exec()
         .then(function (results) {
             res.header("Content-Type",'application/json');
-            res.send(results);
+            res.json(results);
         });
 }
 
@@ -100,11 +100,11 @@ module.exports.put = function (req, res) {
             .exec()
             .then(function (results) {
                 res.header("Content-Type",'application/json');
-                res.send(results);
+                res.json(results);
             })
             .catch(function () {
                 res.header("Content-Type",'application/json');
-                res.send('Sorry ID not found');
+                res.json('Sorry ID not found');
             });
     }
 }
@@ -127,6 +127,6 @@ module.exports.delete = function (req, res) {
     }
     function finish() {
         res.header("Content-Type",'application/json');
-        res.send(removed);
+        res.json(removed);
     }
 }
