@@ -1,36 +1,29 @@
 var Employee = require('./empl.model');
 
+function JSONresponse(res, status, content) {
+    res.status(status).json(content);
+}
+
 module.exports.post = function (req, res) {
-    if (req.method === 'POST') {
 
-        var msg = '';
-        console.log(req.body);
-        Employee.create({
-            firstName: req.body.fName,
-            lastName: req.body.lName,
-            department: req.body.dep,
-            //startDate: req.body.review,
-            jobTitle: req.body.jTitle,
-            salary: req.body.salary
+    var msg = '';
+    console.log(req.body);
+    Employee.create({
+        firstName: req.body.fName,
+        lastName: req.body.lName,
+        department: req.body.dep,
+        //startDate: req.body.review,
+        jobTitle: req.body.jTitle,
+        salary: req.body.salary
+    })
+        .then(function (dataSaved) {
+            console.log(msg);
+            JSONresponse(res, 201, dataSaved);
         })
-            .then(function () {
-                msg = 'Employee was Saved';
-                return;
-            })
-            .catch(function (err) {
-                msg = err;
-                return;
-            }).then(function (err) {
-                console.log(msg);
-                res.json(msg);
-            });
-
-    } else {
-        res.render('index', {
-            title: 'home',
-            message: ''
+        .catch(function (err) {
+            console.log(err);
+            JSONresponse(res, 500, err);
         });
-    }
 }
 
 module.exports.getAll = function (req, res) {
@@ -39,10 +32,13 @@ module.exports.getAll = function (req, res) {
         .exec()
         .then(function (results) {
             console.log(results);
-            res.header("Content-Type",'application/json');
+            res.header("Content-Type", 'application/json');
             console.log(res.header()._headers);
             //console.log(res.contentType());
-            res.json(results);
+            JSONresponse(res, 200, results);
+        })
+        .catch(function (err) {
+            JSONresponse(res, 500, err);
         });
 }
 
@@ -53,8 +49,10 @@ module.exports.getOne = function (req, res) {
         .where('_id').equals(req.params.employeeid)
         .exec()
         .then(function (results) {
-            res.header("Content-Type",'application/json');
-            res.json(results);
+            JSONresponse(res, 200, results);
+        })
+        .catch(function (err) {
+            JSONresponse(res, 500, err);
         });
 }
 
@@ -63,70 +61,44 @@ module.exports.put = function (req, res) {
     var msg = '';
     console.log(id);
     console.log(req.params);
-    if (req.method === 'PUT') {
-
-        //id = req.body._id;
-        console.log(id);
-        Employee
-            .findById(id)
-            .exec()
-            .then(function (EmployeeData) {
-                // figure out why the data is not saving.      
-                console.log(req.body);
-                    EmployeeData.firstName = req.body.fName,
-                    EmployeeData.lastName = req.body.lName,
-                    EmployeeData.department = req.body.dep,
-                    //EmployeeData.//startDate: req.body.review,
-                    EmployeeData.jobTitle = req.body.jTitle,
-                    EmployeeData.salary = req.body.salary
-                return EmployeeData.save();
-            })
-            .then(function () {
-                msg = 'data has been updated';
-                finish();
-            })
-            .catch(function (err) {
-                console.log(err);
-                msg = 'data has NOT been updated';
-                finish();
-            });
-
-    } else {
-        finish();
-    }
-    function finish() {
-        Employee
-            .findOne({ '_id': id })
-            .exec()
-            .then(function (results) {
-                res.header("Content-Type",'application/json');
-                res.json(results);
-            })
-            .catch(function () {
-                res.header("Content-Type",'application/json');
-                res.json('Sorry ID not found');
-            });
-    }
+    //id = req.body._id;
+    console.log(id);
+    Employee
+        .findById(id)
+        .exec()
+        .then(function (EmployeeData) {
+            // figure out why the data is not saving.      
+            console.log(req.body);
+            EmployeeData.firstName = req.body.fName,
+            EmployeeData.lastName = req.body.lName,
+            EmployeeData.department = req.body.dep,
+            //EmployeeData.//startDate: req.body.review,
+            EmployeeData.jobTitle = req.body.jTitle,
+            EmployeeData.salary = req.body.salary
+            return EmployeeData.save();
+        })
+        .then(function (data) {
+            JSONresponse(res, 200, data);
+        })
+        .catch(function (err) {
+            //console.log(msg);
+            JSONresponse(res, 500, err);
+        });
 }
 
 module.exports.delete = function (req, res) {
     var id = req.params.employeeid;
     var removed = "ID was not found";
-    if (id) {
+    if (id != null) {
         Employee.remove({ _id: id })
-            .then(function () {
-                removed = `${id} has been removed`;
-                finish();
+            .then(function (data) {
+                JSONresponse(res, 204, null);
             })
             .catch(function (err) {
-                removed = `${id} has not been removed`;
-                finish();
+                JSONresponse(res, 400, err);
             });
     } else {
-        finish();
-    }
-    function finish() {
-        res.header("Content-Type",'application/json');
-        res.json(removed);
+        console.log(msg);
+        JSONresponse(res, 500, {"message" : "ID is required"});
     }
 }
